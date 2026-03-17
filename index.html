@@ -3,65 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍇 GRAPES SUPREME • THE ULTIMATE 3D REALITY</title>
+    <title>🍇 GRAPES SUPREME • Light Mode</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap');
-
-        :root {
-            --grape-purple: #7c00ff;
-            --grape-glow: #c084fc;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600&display=swap');
 
         body {
             font-family: 'Inter', sans-serif;
             background: #0a0015;
+            color: white;
             overflow-x: hidden;
         }
 
-        .hero-font {
-            font-family: 'Playfair Display', serif;
-        }
+        .hero-font { font-family: 'Playfair Display', serif; }
 
         .bg-gradient-animate {
-            background: linear-gradient(135deg, #1a0033, #0d001a, #001a33, #330033);
-            background-size: 400% 400%;
-            animation: gradientFlow 28s ease infinite;
+            background: linear-gradient(135deg, #1a0033, #001a33, #00331a);
+            background-size: 300% 300%;
+            animation: gradient 35s ease infinite;
         }
 
-        @keyframes gradientFlow {
-            0%   { background-position: 0% 50%; }
-            50%  { background-position: 100% 50%; }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
         #custom-cursor {
             position: fixed;
+            left: 0; top: 0;
+            width: 48px; height: 48px;
             pointer-events: none;
             z-index: 9999;
-            width: 68px;
-            height: 68px;
             transform: translate(-50%, -50%);
-            transition: all 0.08s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.15s ease-out;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 46px;
-            filter: drop-shadow(0 0 25px var(--grape-glow));
-            animation: megaPulse 2.8s infinite ease-in-out;
+            font-size: 32px;
+            filter: drop-shadow(0 0 12px #b388ff);
         }
 
         #custom-cursor.hover {
-            width: 110px;
-            height: 110px;
-            font-size: 68px;
-            filter: drop-shadow(0 0 55px #e0bbff) brightness(1.6);
-            transform: translate(-50%, -50%) scale(1.45) rotate(15deg);
-        }
-
-        @keyframes megaPulse {
-            0%,100% { transform: translate(-50%,-50%) scale(1); }
-            50%     { transform: translate(-50%,-50%) scale(1.18); }
+            transform: translate(-50%, -50%) scale(1.4);
+            filter: drop-shadow(0 0 25px #d4a5ff);
         }
 
         #grape-canvas {
@@ -73,408 +58,163 @@
         }
 
         .glass-nav {
-            background: rgba(15, 0, 35, 0.55);
-            backdrop-filter: blur(28px);
-            border: 1px solid rgba(200, 100, 255, 0.25);
-            box-shadow: 0 20px 40px rgba(124,0,255,0.4);
+            background: rgba(30, 0, 60, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(139,0,255,0.2);
         }
 
         .reveal {
             opacity: 0;
-            transform: translateY(120px) scale(0.92);
-            transition: all 1.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform: translateY(60px);
+            transition: all 1s ease-out;
         }
-        .revealed {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .grape-card {
-            transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .grape-card:hover {
-            transform: translateY(-45px) rotate(4deg) scale(1.08);
-            box-shadow: 0 60px 120px -20px rgba(139, 0, 255, 0.7);
-        }
+        .revealed { opacity: 1; transform: translateY(0); }
 
         .shine-text {
-            background: linear-gradient(90deg, #fff, #e0bbff, #fff);
+            background: linear-gradient(90deg, #fff, #c084fc, #fff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: ultraShine 4s linear infinite;
+            animation: shine 6s linear infinite;
         }
-        @keyframes ultraShine {
-            0%   { background-position: -400% 0; }
-            100% { background-position: 400% 0; }
-        }
-
-        .float-badge {
-            animation: dramaticFloat 3.8s ease-in-out infinite;
-        }
-        @keyframes dramaticFloat {
-            0%,100% { transform: translateY(0) rotate(0deg); }
-            50%     { transform: translateY(-28px) rotate(8deg); }
-        }
-
-        .trail-dot {
-            position: absolute;
-            pointer-events: none;
-            width: 14px;
-            height: 14px;
-            background: radial-gradient(circle, #c084fc, transparent);
-            border-radius: 50%;
-            filter: blur(4px);
-            animation: trailFade 900ms forwards;
-            z-index: 2;
-        }
-        @keyframes trailFade {
-            to { opacity: 0; transform: scale(3.5); }
-        }
+        @keyframes shine { 0%{background-position:-200%} 100%{background-position:200%} }
     </style>
 </head>
-<body class="text-white">
+<body class="bg-gradient-animate">
 
-    <canvas id="grape-canvas" class="bg-gradient-animate"></canvas>
+    <canvas id="grape-canvas"></canvas>
 
-    <div id="custom-cursor" class="text-5xl">🍇</div>
+    <div id="custom-cursor">🍇</div>
 
-    <!-- NAV -->
-    <nav class="glass-nav fixed top-6 left-1/2 -translate-x-1/2 z-50 px-12 py-6 rounded-3xl flex items-center gap-x-12 text-lg font-medium shadow-2xl">
-        <div class="flex items-center gap-x-4">
-            <span class="text-5xl animate-spin-slow">🍇</span>
-            <span class="hero-font text-4xl font-black tracking-[-2px]">GRAPES SUPREME</span>
-        </div>
-        <div class="flex gap-x-12">
-            <a href="#why" class="hover:text-violet-300 transition-all">WHY</a>
-            <a href="#science" class="hover:text-violet-300 transition-all">SCIENCE</a>
-            <a href="#battle" class="hover:text-violet-300 transition-all">BATTLE</a>
-            <a href="#join" class="hover:text-violet-300 transition-all">JOIN</a>
-        </div>
-        <button onclick="megaExplosion()" class="px-10 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-3xl font-bold text-xl hover:scale-110 active:scale-95 transition-all">I AM GRAPE</button>
+    <!-- Floating Nav (simplified) -->
+    <nav class="glass-nav fixed top-4 left-1/2 -translate-x-1/2 z-50 px-8 py-4 rounded-2xl flex items-center gap-8 shadow-xl">
+        <span class="hero-font text-2xl font-bold">GRAPES SUPREME</span>
+        <button onclick="confettiBurst()" class="px-6 py-2 bg-violet-700 rounded-xl hover:bg-violet-600 transition">
+            Grape Power!
+        </button>
     </nav>
 
-    <!-- HERO -->
-    <header class="min-h-screen flex items-center justify-center relative z-10 pt-20">
-        <div class="text-center max-w-7xl px-8">
-            <div class="flex justify-center gap-8 mb-8">
-                <span class="text-[9rem] animate-[bounce_0.8s_infinite]">🍇</span>
-                <span class="text-[9rem] animate-[bounce_1.1s_infinite_150ms]">🍇</span>
-                <span class="text-[9rem] animate-[bounce_0.9s_infinite_300ms]">🍇</span>
-            </div>
-
-            <h1 class="hero-font text-[14rem] leading-none font-black tracking-[-0.09em] shine-text drop-shadow-[0_0_80px_#c084fc]">
-                GRAPES
-            </h1>
-            <p class="text-6xl font-light text-violet-200 tracking-tighter">are the only fruit that matters.<br>Everything else is irrelevant.</p>
-
-            <div class="flex justify-center gap-10 mt-20">
-                <button onclick="scrollToSection('why'); megaExplosion()" 
-                        class="px-16 py-8 bg-white text-black text-3xl font-bold rounded-3xl flex items-center gap-6 hover:rotate-3 hover:scale-110 transition-all shadow-2xl">
-                    PROVE IT
-                    <span class="text-6xl">→</span>
-                </button>
-            </div>
-
-            <div class="float-badge absolute bottom-24 right-20 bg-gradient-to-br from-emerald-500 to-violet-500 text-white px-10 py-5 rounded-3xl text-2xl font-black shadow-2xl flex items-center gap-4">
-                3D GRAPE WORSHIP MODE ACTIVATED
-            </div>
-        </div>
-
-        <div class="absolute bottom-12 left-1/2 text-xs tracking-[4px] flex flex-col items-center gap-2">
-            <span class="animate-pulse">MOVE MOUSE = 3D ORBIT TRAIL • CLICK = GRAPE EXPLOSION</span>
+    <!-- Hero -->
+    <header class="min-h-screen flex items-center justify-center text-center px-6 relative z-10">
+        <div>
+            <h1 class="hero-font text-8xl md:text-[10rem] font-black shine-text leading-none mb-4">GRAPES</h1>
+            <p class="text-4xl md:text-5xl text-violet-300 mb-12">are the best fruit.<br>Nothing comes close.</p>
+            <p class="text-xl opacity-80">Move your mouse — grapes will gently orbit you</p>
         </div>
     </header>
 
-    <!-- WHY -->
-    <section id="why" class="py-40 relative z-10 bg-black/30">
-        <div class="max-w-6xl mx-auto px-10">
-            <h2 class="hero-font text-8xl text-center mb-20">They are literally perfect</h2>
-            <div class="grid md:grid-cols-3 gap-10">
-                <div class="grape-card p-14 rounded-4xl text-center bg-white/5 border border-violet-500/30">
-                    <div class="text-9xl mb-8">⚡</div>
-                    <h3 class="text-5xl font-bold">Zero Effort Snack</h3>
-                    <p class="text-2xl mt-6 text-zinc-300">Pop. Eat. Repeat. No mess. No peel. Nature’s cheat code.</p>
-                </div>
-                <div class="grape-card p-14 rounded-4xl text-center bg-white/5 border border-violet-500/30">
-                    <div class="text-9xl mb-8">🍷</div>
-                    <h3 class="text-5xl font-bold">They Evolve Into Wine</h3>
-                    <p class="text-2xl mt-6 text-zinc-300">The only fruit that becomes god-tier liquid. Apples could never.</p>
-                </div>
-                <div class="grape-card p-14 rounded-4xl text-center bg-white/5 border border-violet-500/30">
-                    <div class="text-9xl mb-8">👑</div>
-                    <h3 class="text-5xl font-bold">Ancient Royalty</h3>
-                    <p class="text-2xl mt-6 text-zinc-300">Pharaohs, Romans, Gods — all chose grapes. History agrees.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SCIENCE -->
-    <section id="science" class="py-40 relative z-10 bg-gradient-to-b from-transparent to-violet-950/40">
-        <div class="max-w-5xl mx-auto px-10 text-center">
-            <h2 class="hero-font text-7xl mb-16">The 3D Science of Perfection</h2>
-            <div class="text-3xl max-w-3xl mx-auto text-violet-200 leading-relaxed">
-                Perfect sugar-acid ratio. Explosive juice burst. Thin skin. Maximum flavor density.<br>
-                Grapes are the only fruit that mathematically dominates every category.
-            </div>
-        </div>
-    </section>
-
-    <!-- BATTLE -->
-    <section id="battle" class="py-40 relative z-10">
-        <div class="max-w-7xl mx-auto px-10 text-center">
-            <h2 class="hero-font text-8xl mb-20">Fruit Battle Royale — Grapes Win</h2>
-            <div class="grid grid-cols-5 gap-8">
-                <div class="grape-card p-12 rounded-4xl scale-110 bg-gradient-to-br from-violet-700 to-purple-700">
-                    <div class="text-9xl mb-6">🍇</div>
-                    <div class="text-5xl font-black text-emerald-400">CHAMPION</div>
-                </div>
-                <div class="grape-card p-12 rounded-4xl opacity-70"><div class="text-8xl mb-6">🍎</div><div class="text-4xl font-bold text-zinc-400">Apple</div></div>
-                <div class="grape-card p-12 rounded-4xl opacity-70"><div class="text-8xl mb-6">🍌</div><div class="text-4xl font-bold text-zinc-400">Banana</div></div>
-                <div class="grape-card p-12 rounded-4xl opacity-70"><div class="text-8xl mb-6">🍊</div><div class="text-4xl font-bold text-zinc-400">Orange</div></div>
-                <div class="grape-card p-12 rounded-4xl opacity-70"><div class="text-8xl mb-6">🥝</div><div class="text-4xl font-bold text-zinc-400">Kiwi</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- JOIN -->
-    <section id="join" class="py-52 relative z-10 bg-gradient-to-b from-black via-violet-950/30 to-black">
-        <div class="max-w-lg mx-auto text-center px-8">
-            <div class="text-[10rem] mb-12 animate-[spin_25s_linear_infinite]">🍇</div>
-            <h2 class="hero-font text-8xl mb-8">Pledge to the Grape Empire</h2>
-            <button onclick="megaExplosion(); celebrate(); showAffirmation()" 
-                    class="w-full py-12 text-4xl font-black bg-gradient-to-r from-violet-700 via-fuchsia-600 to-violet-700 rounded-3xl hover:scale-110 transition-all shadow-[0_0_80px_#c084fc]">
-                    I AM GRAPE FOREVER
-            </button>
-            <div id="counter" class="mt-16 text-7xl font-mono text-emerald-400">14280</div>
-        </div>
-    </section>
-
-    <!-- AFFIRMATION -->
-    <div id="affirmation" class="hidden fixed inset-0 bg-black/90 backdrop-blur-3xl z-[99999] flex items-center justify-center">
-        <div class="max-w-xl text-center p-20 bg-gradient-to-br from-purple-950 to-violet-900 rounded-3xl border border-violet-400">
-            <div class="text-9xl mb-12">🍇</div>
-            <h2 class="hero-font text-7xl">DAILY GRAPE AFFIRMATION</h2>
-            <p class="text-3xl mt-10 text-violet-100">"I only accept the supreme fruit. Grapes chose me. All others are inferior. I am aligned with greatness."</p>
-            <button onclick="document.getElementById('affirmation').classList.add('hidden')" class="mt-14 px-16 py-7 bg-white text-black text-3xl font-bold rounded-3xl">I ACCEPT MY GREATNESS</button>
-        </div>
-    </div>
-
-    <footer class="py-20 text-center text-xs text-zinc-500">© 2026 GRAPES SUPREME • 3D ORBIT TRAIL ENABLED • CLICK ANYWHERE FOR EXPLOSIONS</footer>
-
     <script>
-        let mouse = { x: window.innerWidth/2, y: window.innerHeight/2 };
+        // Cursor
         const cursor = document.getElementById('custom-cursor');
-
         document.addEventListener('mousemove', e => {
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top  = e.clientY + 'px';
+        });
+        document.querySelectorAll('button').forEach(b => {
+            b.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            b.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
         });
 
-        document.querySelectorAll('button, a, .grape-card').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-
-        // === CANVAS WITH 3D TRAILS ===
+        // Canvas – light version
         const canvas = document.getElementById('grape-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        let mouse = { x: window.innerWidth/2, y: window.innerHeight/2 };
 
-        class Grape {
+        class LightGrape {
             constructor() {
                 this.reset();
-                this.trail = [];
             }
             reset() {
                 this.x = Math.random() * canvas.width;
-                this.y = Math.random() * -200 - 100;
-                this.size = Math.random() * 26 + 18;
-                this.baseSize = this.size;
-                this.speed = Math.random() * 3.5 + 1.4;
-                this.baseSpeed = this.speed;
+                this.y = Math.random() * canvas.height * -0.5 - 50;
+                this.size = Math.random() * 18 + 14;
+                this.speed = Math.random() * 2 + 0.8;
                 this.angle = Math.random() * Math.PI * 2;
-                this.spin = (Math.random() - 0.5) * 0.08;
-                this.opacity = Math.random() * 0.6 + 0.55;
-                this.hue = 270 + Math.random() * 40;
-                this.trail = [];
+                this.spin = (Math.random() - 0.5) * 0.04;
+                this.opacity = Math.random() * 0.4 + 0.5;
             }
             update() {
                 const dx = mouse.x - this.x;
                 const dy = mouse.y - this.y;
                 const dist = Math.hypot(dx, dy);
 
-                if (dist < 340 && dist > 15) {
+                if (dist < 220 && dist > 10) {
+                    // gentle orbit pull
                     const nx = dx / dist;
                     const ny = dy / dist;
-                    const targetR = 155 + Math.sin(Date.now() / 300) * 45;
-                    const error = dist - targetR;
-                    const force = error * 0.052;
+                    const target = 140;
+                    const error = dist - target;
+                    this.x -= nx * error * 0.025;
+                    this.y -= ny * error * 0.025;
 
-                    this.x -= nx * force;
-                    this.y -= ny * force;
-
+                    // soft spin
                     const tx = -ny;
                     const ty = nx;
-                    const spinForce = 5.5 * (340 - dist) / 340;
-                    this.x += tx * spinForce;
-                    this.y += ty * spinForce;
+                    this.x += tx * 1.8;
+                    this.y += ty * 1.8;
 
-                    this.speed *= 0.82;
-                    this.angle += this.spin * 2.2;
-                    this.size = this.baseSize * (1 + Math.sin(Date.now() / 90) * 0.22); // dramatic pulse
+                    this.angle += this.spin * 1.5;
                 } else {
                     this.y += this.speed;
                     this.angle += this.spin;
-                    this.size = this.baseSize;
-                    if (this.speed < this.baseSpeed) this.speed += 0.3;
                 }
 
-                // 3D trail recording
-                this.trail.push({x: this.x, y: this.y, a: this.opacity});
-                if (this.trail.length > 15) this.trail.shift();
-
-                if (this.y > canvas.height + 150) this.reset();
+                if (this.y > canvas.height + 100) this.reset();
             }
             draw() {
-                // 3D TRAIL (fading swirling grapes behind each orbiting one)
-                for (let i = 0; i < this.trail.length; i++) {
-                    const t = this.trail[i];
-                    const progress = i / this.trail.length;
-                    ctx.globalAlpha = progress * 0.35 * t.a;
-                    const tSize = this.size * (0.5 + progress * 0.6);
-
-                    ctx.save();
-                    ctx.translate(t.x, t.y);
-                    ctx.rotate(this.angle + i * 0.12); // twist for 3D depth
-                    ctx.shadowBlur = 30;
-                    ctx.shadowColor = `hsl(${this.hue}, 100%, 75%)`;
-                    ctx.font = `${tSize}px serif`;
-                    ctx.fillText('🍇', -tSize/2, tSize/2);
-                    ctx.restore();
-                }
-
-                // 3D MAIN GRAPE
-                ctx.globalAlpha = this.opacity;
                 ctx.save();
+                ctx.globalAlpha = this.opacity;
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.angle);
-
-                // shadow layer (depth)
-                ctx.shadowBlur = 0;
-                ctx.fillStyle = 'rgba(0,0,0,0.6)';
-                ctx.font = `${this.size}px serif`;
-                ctx.fillText('🍇', -this.size/2 + 6, this.size/2 + 6);
-
-                // highlight layer
-                ctx.shadowBlur = 45;
-                ctx.shadowColor = '#ffffff';
-                ctx.fillStyle = 'rgba(255,255,255,0.45)';
-                ctx.fillText('🍇', -this.size/2 - 4, this.size/2 - 4);
-
-                // glowing main layer
-                ctx.shadowBlur = 38;
-                ctx.shadowColor = `hsl(${this.hue}, 100%, 78%)`;
-                ctx.fillStyle = `hsl(${this.hue}, 92%, 68%)`;
                 ctx.font = `${this.size}px serif`;
                 ctx.fillText('🍇', -this.size/2, this.size/2);
-
                 ctx.restore();
             }
         }
 
-        function resizeCanvas() {
+        function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
 
-        function animateCanvas() {
+        function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            for (let p of particles) {
+            particles.forEach(p => {
                 p.update();
                 p.draw();
-            }
-
-            // spawn more for drama
-            if (Math.random() < 0.65 && particles.length < 135) {
-                particles.push(new Grape());
-            }
-
-            requestAnimationFrame(animateCanvas);
+            });
+            requestAnimationFrame(animate);
         }
 
-        // Click = dramatic grape explosion around cursor
-        document.addEventListener('click', (e) => {
-            if (Math.random() > 0.3) return; // not every click, feels special
-            for (let i = 0; i < 42; i++) {
-                const p = new Grape();
-                const ang = Math.random() * Math.PI * 2;
-                const force = 7 + Math.random() * 12;
-                p.x = mouse.x + (Math.random() - 0.5) * 120;
-                p.y = mouse.y + (Math.random() - 0.5) * 120;
-                p.speed = 0;
-                p.angle = ang;
-                // temporary outward velocity (simulated)
-                setTimeout(() => { if (particles.includes(p)) p.speed = force; }, 10);
-                particles.push(p);
+        // Spawn initial + slow respawn
+        window.addEventListener('resize', resize);
+        resize();
+
+        for (let i = 0; i < 38; i++) {
+            particles.push(new LightGrape());
+        }
+        animate();
+
+        // Very light confetti burst on button
+        function confettiBurst() {
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const p = new LightGrape();
+                    p.x = mouse.x;
+                    p.y = mouse.y - 80;
+                    p.speed = 1.5 + Math.random() * 3;
+                    particles.push(p);
+                }, i * 30);
             }
+        }
+
+        document.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
         });
 
-        // Mega explosion (button + affirmation)
-        function megaExplosion() {
-            for (let i = 0; i < 110; i++) {
-                setTimeout(() => {
-                    const p = new Grape();
-                    p.x = mouse.x;
-                    p.y = mouse.y - 100;
-                    p.speed = 2 + Math.random() * 6;
-                    particles.push(p);
-                }, i * 3);
-            }
-        }
-
-        function celebrate() {
-            const counter = document.getElementById('counter');
-            let n = parseInt(counter.textContent);
-            n += Math.floor(Math.random() * 800) + 420;
-            let current = parseInt(counter.textContent);
-            const iv = setInterval(() => {
-                current += 47;
-                counter.textContent = current;
-                if (current >= n) {
-                    clearInterval(iv);
-                    counter.textContent = n;
-                }
-            }, 18);
-        }
-
-        function showAffirmation() {
-            document.getElementById('affirmation').classList.remove('hidden');
-        }
-
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        window.onload = () => {
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-
-            for (let i = 0; i < 95; i++) particles.push(new Grape());
-            animateCanvas();
-
-            // Reveal animations
-            const obs = new IntersectionObserver(entries => {
-                entries.forEach(en => en.isIntersecting && en.target.classList.add('revealed'));
-            }, { threshold: 0.18 });
-            document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-            console.log('%c🍇 3D GRAPE TRAIL + MEGA ANIMATIONS LOADED 🍇\nOrbit = swirling 3D trails\nClick = explosive bursts\nEverything is dramatically upgraded!', 'color:#c084fc; font-family:monospace; font-size:15px');
-        };
+        console.log("Light grape mode loaded – should be smooth on Chromebook 🍇");
     </script>
 </body>
 </html>

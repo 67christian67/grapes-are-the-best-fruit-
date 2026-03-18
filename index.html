@@ -4,286 +4,613 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🍇 GRAPES SUPREME • THE ULTIMATE STREAM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Plus+Jakarta+Sans:wght@400;700;800&family=Space+Mono:wght@700&display=swap');
 
+        /* OVER-ENGINEERED SPAGHETTI CSS START */
         :root {
             --grape-primary: #a855f7;
             --grape-dark: #03000a;
             --gold: #ffd700;
+            --chat-bg: rgba(20, 10, 30, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
         body {
+            margin-top: 0px;
+            margin-bottom: 0px;
+            margin-left: 0px;
+            margin-right: 0px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--grape-dark);
-            color: white;
+            color: #ffffff;
             overflow-x: hidden;
             scroll-behavior: smooth;
-            cursor: none;
+            cursor: pointer;
         }
 
-        .hero-font { font-family: 'Playfair Display', serif; }
+        /* MASSIVE WRAPPER DIV STYLING */
+        #absolute-wrapper-layer-1 { position: relative; width: 100%; height: 100%; }
+        #absolute-wrapper-layer-2 { position: relative; width: 100%; height: 100%; }
+        #absolute-wrapper-layer-3 { position: relative; width: 100%; height: 100%; }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 0px; }
+        /* HEADER & TOP BAR */
+        #top-bar-container {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            z-index: 110;
+            background-color: rgba(24, 24, 27, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom-width: 2px;
+            border-bottom-style: solid;
+            border-bottom-color: var(--grape-primary);
+            box-shadow: 0px 10px 20px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
 
-        /* Text Effects */
-        .outline-text {
+        .goal-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        #goal-bar-bg {
+            flex-grow: 1;
+            height: 25px;
+            background-color: #000000;
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        #goal-bar-fill {
+            height: 100%;
+            background-image: linear-gradient(to right, var(--grape-primary), #d946ef);
+            width: 0%;
+            transition-property: width;
+            transition-duration: 0.2s;
+            transition-timing-function: ease-out;
+        }
+
+        #economy-display {
+            font-family: 'Space Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-left: 20px;
+        }
+
+        /* TWITCH CHAT STYLING */
+        #twitch-chat-box {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 90;
+            width: 300px;
+            height: 50vh;
+            background-color: var(--chat-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.8);
+        }
+
+        #chat-header {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 800;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--grape-primary);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #chat-messages {
+            flex-grow: 1;
+            overflow-y: scroll;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        /* Custom Scrollbar for Chat */
+        #chat-messages::-webkit-scrollbar { width: 4px; }
+        #chat-messages::-webkit-scrollbar-thumb { background: var(--grape-primary); }
+
+        .chat-line { line-height: 1.4; margin-bottom: 5px; }
+        .chat-user { font-weight: bold; color: var(--grape-primary); margin-right: 5px; }
+        .chat-text { color: #dddddd; }
+        .emote { height: 24px; vertical-align: middle; margin: 0 4px; display: inline-block; }
+
+        /* THE REALISTIC GRAPE TUBER RIG */
+        #cam-container {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 100;
+            width: 400px;
+            height: 280px;
+            background-color: #111;
+            border: 4px solid var(--grape-primary);
+            border-radius: 12px;
+            box-shadow: 0px 15px 40px rgba(0,0,0,0.9);
+            overflow: hidden;
+            transition: all 0.1s;
+        }
+
+        .cam-overlay-text {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            background-color: var(--grape-primary);
+            padding: 4px 10px;
+            font-weight: 900;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            box-sizing: border-box;
+            z-index: 50;
+        }
+
+        /* The Gamer Room Background */
+        #virtual-room {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?q=80&w=800&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.5) saturate(1.5);
+            z-index: 1;
+        }
+
+        /* The Gamer Body (Cyan Sweater) */
+        #gamer-body {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 120px;
+            background-color: #0ea5e9; /* Cyan sweater */
+            border-radius: 60px 60px 20px 20px;
+            z-index: 10;
+            box-shadow: inset -10px -10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* The Grape Head & Rig */
+        #head-tracking-rig {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            width: 120px;
+            height: 120px;
+            margin-left: -60px;
+            z-index: 20;
+            transition: transform 0.1s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Literal Bunch of Grapes for a head */
+        #grape-head {
+            font-size: 90px;
+            line-height: 1;
+            text-shadow: 0px 5px 15px rgba(0,0,0,0.8);
+            user-select: none;
+            position: relative;
+            z-index: 21;
+        }
+
+        /* Realistic Headset overlay */
+        .headset-arch {
+            position: absolute;
+            top: -5px;
+            width: 100px;
+            height: 60px;
+            border: 12px solid #222;
+            border-radius: 50px 50px 0 0;
+            border-bottom: none;
+            z-index: 22;
+        }
+        .headset-ear-left {
+            position: absolute;
+            left: -15px; top: 40px;
+            width: 25px; height: 50px;
+            background: #111; border-radius: 10px;
+            border: 2px solid #444; z-index: 23;
+        }
+        .headset-ear-right {
+            position: absolute;
+            right: -15px; top: 40px;
+            width: 25px; height: 50px;
+            background: #111; border-radius: 10px;
+            border: 2px solid #444; z-index: 23;
+        }
+
+        /* The Mic Arm */
+        #mic-arm {
+            position: absolute;
+            bottom: 20px;
+            right: -20px;
+            width: 150px;
+            height: 12px;
+            background-color: #222;
+            z-index: 30;
+            transform: rotate(-15deg);
+            transform-origin: right center;
+            border: 1px solid #111;
+        }
+        #mic-head {
+            position: absolute;
+            left: -30px;
+            top: -20px;
+            width: 40px;
+            height: 60px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            border: 2px solid #444;
+        }
+
+        /* Hype Train Screen Flash */
+        .hype-flash {
+            animation: hypeAnim 0.1s infinite alternate;
+        }
+        @keyframes hypeAnim {
+            0% { filter: drop-shadow(0 0 20px var(--grape-primary)) hue-rotate(0deg); border-color: #fff; }
+            100% { filter: drop-shadow(0 0 40px red) hue-rotate(90deg); border-color: red; }
+        }
+
+        /* Main Content area */
+        #main-hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 10vw;
+            font-weight: 900;
+            margin: 0;
             color: transparent;
-            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
-            transition: all 0.4s ease;
+            -webkit-text-stroke: 2px rgba(255,255,255,0.4);
+            text-transform: uppercase;
         }
-        .outline-text:hover {
-            color: white;
-            -webkit-text-stroke: 1px transparent;
-            filter: drop-shadow(0 0 20px var(--grape-primary));
-        }
-
-        /* V-TUBER RIG STYLES */
-        .headset-band { position: absolute; top: -10px; width: 110%; height: 60%; border: 8px solid #222; border-radius: 50% 50% 0 0; border-bottom: none; }
-        .earcup { position: absolute; width: 25px; height: 45px; background: #1a1a1a; border-radius: 10px; border: 2px solid var(--grape-primary); }
-        .mic-arm { position: absolute; bottom: 15px; left: -25px; width: 45px; height: 10px; background: #333; border-radius: 20px; transform: rotate(15deg); }
-        .mic-pop { position: absolute; right: -5px; top: -5px; width: 22px; height: 22px; background: #000; border: 1px solid #444; border-radius: 50%; }
-
-        /* Animations */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
-        .revealed { opacity: 1; transform: translateY(0); }
-
-        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-        
-        #custom-cursor {
-            width: 40px; height: 40px;
-            position: fixed; pointer-events: none; z-index: 9999;
-            display: flex; align-items: center; justify-content: center;
+        .hero-title:hover {
+            color: #ffffff;
+            -webkit-text-stroke: 0px transparent;
+            text-shadow: 0 0 30px var(--grape-primary);
         }
 
-        .gold-glow { filter: drop-shadow(0 0 15px var(--gold)) saturate(2); }
+        /* Massive specific buttons */
+        .big-clicker-button {
+            padding-top: 20px; padding-bottom: 20px;
+            padding-left: 50px; padding-right: 50px;
+            background-color: #ffffff; color: #000000;
+            font-size: 24px; font-weight: 900;
+            border-radius: 99px; border: none;
+            margin-top: 40px; cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .big-clicker-button:active { transform: scale(0.9); }
+
     </style>
 </head>
 <body>
+    <div id="absolute-wrapper-layer-1">
+        <div id="absolute-wrapper-layer-2">
+            <div id="absolute-wrapper-layer-3">
 
-    <div id="custom-cursor"><span class="text-3xl">🍇</span></div>
-
-    <div class="fixed top-0 left-0 w-full z-[110] bg-zinc-900/95 backdrop-blur-lg border-b-2 border-purple-600 shadow-2xl">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-6">
-            <div class="flex-shrink-0 flex items-center gap-2">
-                <span class="animate-bounce">🍇</span>
-                <span class="text-xs font-black italic text-purple-400 uppercase">Grape Goal:</span>
-            </div>
-            <div class="flex-1 h-5 bg-black rounded-full overflow-hidden border border-white/10 relative">
-                <div id="goal-bar" class="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all duration-700" style="width: 15%"></div>
-                <div class="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white uppercase mix-blend-difference tracking-widest">
-                    Spam clicks to reach 100%
+                <div id="top-bar-container">
+                    <div class="goal-wrapper">
+                        <span style="font-size: 24px; margin-right: 10px;">🍇</span>
+                        <span style="font-weight: 900; color: var(--grape-primary);">HYPE GOAL:</span>
+                        <div id="goal-bar-bg">
+                            <div id="goal-bar-fill"></div>
+                            <div style="position: absolute; top:0; left:0; width:100%; height:100%; display:flex; justify-content:center; align-items:center; font-size: 10px; font-weight: 900; mix-blend-mode: difference;">CLICK SCREEN TO BOOST</div>
+                        </div>
+                        <span id="economy-display">💰 0 GC</span>
+                    </div>
                 </div>
-            </div>
-            <div class="flex-shrink-0 text-white font-mono text-sm font-black" id="goal-percent">15%</div>
-        </div>
-    </div>
 
-    <div id="twitch-chat" class="fixed top-24 right-6 z-[90] w-64 h-[45vh] glass rounded-2xl flex flex-col shadow-2xl hidden md:flex">
-        <div class="p-3 border-b border-white/10 flex justify-between items-center bg-purple-900/10">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-purple-400">Stream Chat</span>
-            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-        </div>
-        <div id="chat-container" class="flex-1 overflow-y-auto p-3 space-y-2 text-[11px] font-medium"></div>
-    </div>
-
-    <div id="grape-cam" class="fixed bottom-6 right-6 z-[100] w-72 h-56 bg-zinc-900 border-4 border-purple-600 rounded-xl shadow-2xl overflow-hidden hidden md:block transition-all duration-500">
-        <div id="cam-overlay" class="absolute top-0 left-0 w-full bg-purple-600 px-2 py-1 flex justify-between items-center z-20">
-            <span class="text-[9px] font-black" id="cam-label">LIVE: GRAPE_SUPREME</span>
-            <span class="text-[9px] font-mono">REC ● 14.2k</span>
-        </div>
-        
-        <div class="relative w-full h-full flex items-center justify-center bg-[#111] pt-6">
-            <div id="streamer-rig" class="relative transition-transform duration-100 ease-out">
-                <div id="headset-band" class="headset-band"></div>
-                <div id="ear-l" class="earcup -left-4 top-10"></div>
-                <div id="ear-r" class="earcup -right-4 top-10"></div>
-                
-                <div id="grape-character" class="text-9xl relative z-10 select-none transition-all duration-200">🍇</div>
-                
-                <div class="mic-arm relative z-20">
-                    <div class="mic-pop"></div>
+                <div id="twitch-chat-box">
+                    <div id="chat-header">
+                        <span>Stream Chat</span>
+                        <span style="color: #22c55e;">● LIVE</span>
+                    </div>
+                    <div id="chat-messages">
+                        </div>
                 </div>
-            </div>
 
-            <div id="grape-chat" class="absolute top-16 right-4 bg-white text-black text-[10px] font-black px-3 py-2 rounded-lg opacity-0 transition-opacity shadow-xl z-50">
-                POG!
+                <div id="cam-container">
+                    <div class="cam-overlay-text">
+                        <span>LIVE: GRAPE_SUPREME</span>
+                        <span>REC ● 14.2k</span>
+                    </div>
+                    
+                    <div id="virtual-room"></div>
+                    <div id="gamer-body"></div>
+                    
+                    <div id="head-tracking-rig">
+                        <div class="headset-arch"></div>
+                        <div class="headset-ear-left"></div>
+                        <div class="headset-ear-right"></div>
+                        <div id="grape-head">🍇</div>
+                    </div>
+
+                    <div id="mic-arm">
+                        <div id="mic-head"></div>
+                    </div>
+                </div>
+
+                <div id="main-hero">
+                    <h1 class="hero-title">GRAPES</h1>
+                    <p style="font-size: 24px; color: #888; margin-top: 10px;">Click anywhere to earn Grape Coins & trigger the Hype Train.</p>
+                    <button class="big-clicker-button" id="buy-upgrade-btn">BUY GOLDEN SKIN (100 GC)</button>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <div id="dono-alert" class="fixed top-40 left-1/2 -translate-x-1/2 z-[200] pointer-events-none opacity-0 scale-50 transition-all duration-500">
-        <div class="bg-yellow-400 p-1 rounded-lg shadow-2xl">
-            <div class="bg-zinc-900 px-10 py-4 rounded-lg text-center">
-                <div class="text-yellow-400 font-black italic text-xl">NEW DONO!</div>
-                <div id="dono-user" class="text-white font-bold text-sm">User: $5.00</div>
-            </div>
-        </div>
-    </div>
-
-    <header class="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20">
-        <div class="reveal">
-            <span class="px-4 py-1 bg-purple-500/20 text-purple-400 rounded-full text-xs font-bold tracking-widest mb-6 inline-block uppercase">Most Viewed Fruit 2026</span>
-            <h1 class="hero-font text-[12vw] font-black leading-none outline-text uppercase">GRAPES</h1>
-            <p class="text-xl md:text-3xl text-zinc-400 mt-4 max-w-2xl font-light italic">Nothing comes close to the juice.</p>
-            <div class="mt-12 flex gap-4 justify-center">
-                <button onclick="scrollToSection('why')" class="px-10 py-5 bg-white text-black font-black rounded-full hover:scale-105 transition-transform active:scale-95">PROVE IT</button>
-                <button onclick="scrollToSection('shop')" class="px-10 py-5 glass rounded-full font-black hover:bg-white/10 transition-all">VISIT SHOP</button>
-            </div>
-        </div>
-    </header>
-
-    <section id="shop" class="py-40">
-        <div class="max-w-4xl mx-auto px-8">
-            <div class="text-center mb-16">
-                <h2 class="hero-font text-7xl font-bold mb-4">SKIN SHOP</h2>
-                <p class="text-purple-400 font-mono text-sm uppercase">Equip your V-Tuber Outfit</p>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                <button onclick="changeSkin('🍇', 'Default')" class="glass p-6 rounded-2xl hover:bg-white/10 transition-all flex flex-col items-center gap-4">
-                    <span class="text-5xl">🍇</span>
-                    <span class="text-xs font-bold uppercase">Classic</span>
-                </button>
-                <button onclick="changeSkin('🕶️', 'Cool Grape')" class="glass p-6 rounded-2xl hover:bg-white/10 transition-all flex flex-col items-center gap-4">
-                    <span class="text-5xl">🕶️</span>
-                    <span class="text-xs font-bold uppercase">Cool Guy</span>
-                </button>
-                <button onclick="changeSkin('👑', 'The King')" class="glass p-6 rounded-2xl hover:bg-white/10 transition-all flex flex-col items-center gap-4">
-                    <span class="text-5xl">👑</span>
-                    <span class="text-xs font-bold uppercase">Royalty</span>
-                </button>
-                <button onclick="changeSkin('✨', 'Golden')" class="glass p-6 rounded-2xl border-yellow-500 bg-yellow-500/10 hover:bg-yellow-500/20 transition-all flex flex-col items-center gap-4">
-                    <span class="text-5xl">✨</span>
-                    <span class="text-xs font-bold uppercase">Golden</span>
-                </button>
-                <button onclick="changeSkin('👽', 'Space')" class="glass p-6 rounded-2xl hover:bg-white/10 transition-all flex flex-col items-center gap-4">
-                    <span class="text-5xl">👽</span>
-                    <span class="text-xs font-bold uppercase">Alien</span>
-                </button>
-                <button onclick="changeSkin('🤖', 'Cyber')" class="glass p-6 rounded-2xl hover:bg-white/10 transition-all flex flex-col items-center gap-4">
-                    <span class="text-5xl">🤖</span>
-                    <span class="text-xs font-bold uppercase">Bot</span>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-10 text-center text-zinc-600 text-[10px] tracking-[0.5em] uppercase border-t border-white/5">
-        Stay Juicy • 2026 Grapes Supreme Inc.
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
-        const cursor = document.getElementById('custom-cursor');
-        const rig = document.getElementById('streamer-rig');
-        const character = document.getElementById('grape-character');
-        const chatBubble = document.getElementById('grape-chat');
-        const chatContainer = document.getElementById('chat-container');
-        const goalBar = document.getElementById('goal-bar');
-        const goalPercent = document.getElementById('goal-percent');
-        const donoAlert = document.getElementById('dono-alert');
-
-        // --- MOUSE TRACKING ---
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            // Rig follows mouse
-            const x = (e.clientX - window.innerWidth / 2) / 35;
-            const y = (e.clientY - window.innerHeight / 2) / 35;
-            rig.style.transform = `translate(${x}px, ${y}px) rotate(${x}deg)`;
-        });
-
-        // --- CHAT SYSTEM ---
-        const users = ['JuiceGod', 'AppleHater', 'VineLord', 'PurpleKing', 'Seedless99', 'GamerGrape'];
-        const msgs = ['🍇🍇🍇🍇', 'POGGERS', 'W STRAT', 'LMAO', 'GRAPE GANG', 'SHEESH', 'Based fruit choice'];
-
-        function addChat(u, m, col = 'text-purple-400') {
-            const div = document.createElement('div');
-            div.innerHTML = `<span class="${col} font-bold">${u}:</span> <span class="text-zinc-300">${m}</span>`;
-            chatContainer.appendChild(div);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            if(chatContainer.children.length > 15) chatContainer.removeChild(chatContainer.firstChild);
-        }
-        setInterval(() => addChat(users[Math.floor(Math.random()*users.length)], msgs[Math.floor(Math.random()*msgs.length)]), 2000);
-
-        // --- REACTIONS ---
-        function grapeSpeak(text) {
-            chatBubble.innerText = text;
-            chatBubble.style.opacity = '1';
-            setTimeout(() => chatBubble.style.opacity = '0', 2000);
-        }
-
-        // --- SKINS & GOLDEN MODE ---
-        function changeSkin(emoji, name) {
-            character.innerText = emoji;
-            grapeSpeak(`NEW SKIN: ${name}!`);
-            
-            const cam = document.getElementById('grape-cam');
-            const overlay = document.getElementById('cam-overlay');
-            const ears = [document.getElementById('ear-l'), document.getElementById('ear-r')];
-            const band = document.getElementById('headset-band');
-
-            if(name === 'Golden') {
-                character.classList.add('gold-glow');
-                cam.style.borderColor = '#ffd700';
-                overlay.style.backgroundColor = '#ffd700';
-                overlay.style.color = '#000';
-                ears.forEach(e => e.style.backgroundColor = '#ffd700');
-                band.style.borderColor = '#ffd700';
-                addChat('SYSTEM', 'GOLDEN MODE ACTIVATED', 'text-yellow-400');
-            } else {
-                character.classList.remove('gold-glow');
-                cam.style.borderColor = '#a855f7';
-                overlay.style.backgroundColor = '#a855f7';
-                overlay.style.color = '#fff';
-                ears.forEach(e => e.style.backgroundColor = '#1a1a1a');
-                band.style.borderColor = '#222';
+        // =========================================================================
+        // FEATURE CREEP: GRAPE ECONOMY MANAGER
+        // Over-engineered class just to handle a single number going up.
+        // =========================================================================
+        class GrapeEconomyManager {
+            constructor() {
+                this.currencyName = "Grape Coins";
+                this.currencySymbol = "GC";
+                this.currentBalance = 0;
+                this.loadFromStorage();
             }
+
+            loadFromStorage() {
+                const saved = localStorage.getItem('grapeCoins_saveData_v1');
+                if (saved !== null && saved !== undefined) {
+                    this.currentBalance = parseInt(saved, 10);
+                } else {
+                    this.currentBalance = 0;
+                }
+                this.updateUI();
+            }
+
+            saveToStorage() {
+                localStorage.setItem('grapeCoins_saveData_v1', this.currentBalance.toString());
+            }
+
+            addCoins(amount) {
+                if (typeof amount !== 'number') return false;
+                if (amount <= 0) return false;
+                this.currentBalance = this.currentBalance + amount;
+                this.saveToStorage();
+                this.updateUI();
+                return true;
+            }
+
+            spendCoins(amount) {
+                if (this.currentBalance >= amount) {
+                    this.currentBalance = this.currentBalance - amount;
+                    this.saveToStorage();
+                    this.updateUI();
+                    return true;
+                }
+                return false;
+            }
+
+            updateUI() {
+                const displayElement = document.getElementById('economy-display');
+                if (displayElement) {
+                    displayElement.innerText = `💰 ${this.currentBalance} ${this.currencySymbol}`;
+                }
+            }
+        }
+
+        const Economy = new GrapeEconomyManager();
+
+        // =========================================================================
+        // DOM ELEMENTS & GLOBAL STATE
+        // =========================================================================
+        const headRig = document.getElementById('head-tracking-rig');
+        const camContainer = document.getElementById('cam-container');
+        const grapeHead = document.getElementById('grape-head');
+        const goalBarFill = document.getElementById('goal-bar-fill');
+        const chatMessages = document.getElementById('chat-messages');
+        const buyBtn = document.getElementById('buy-upgrade-btn');
+
+        let goalProgress = 0;
+        let clickSpeed = 0;
+        let isHypeTrain = false;
+
+        // =========================================================================
+        // MOUSE TRACKING FOR V-TUBER RIG
+        // =========================================================================
+        document.addEventListener('mousemove', (event) => {
+            const screenX = event.clientX;
+            const screenY = event.clientY;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
             
-            launchConfetti();
-        }
+            // Calculate rotation and translation based on mouse position
+            const moveX = (screenX - centerX) / 40;
+            const moveY = (screenY - centerY) / 40;
+            const rotateZ = moveX * 0.5;
 
-        // --- GOAL SYSTEM ---
-        let progress = 15;
-        function updateGoal(amt) {
-            progress = Math.min(progress + amt, 100);
-            goalBar.style.width = progress + '%';
-            goalPercent.innerText = Math.floor(progress) + '%';
-            if(progress >= 100) grapeSpeak("GOAL ACHIEVED!! 🍇");
-        }
-
-        // --- CLICK EVENTS ---
-        document.addEventListener('mousedown', () => {
-            character.style.transform = 'scale(1.2)';
-            updateGoal(0.2);
-            if(Math.random() > 0.9) grapeSpeak("HYPE!");
-            setTimeout(() => character.style.transform = 'scale(1)', 100);
+            // Apply to the grape head rig
+            headRig.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotateZ}deg)`;
         });
 
-        // --- UTILS ---
-        function launchConfetti() {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#a855f7', '#ffd700'] });
-            
-            const user = users[Math.floor(Math.random()*users.length)];
-            document.getElementById('dono-user').innerText = `${user}: $${(Math.random()*20 + 1).toFixed(2)}`;
-            donoAlert.style.opacity = '1';
-            donoAlert.style.transform = 'translate(-50%, 0) scale(1)';
-            setTimeout(() => {
-                donoAlert.style.opacity = '0';
-                donoAlert.style.transform = 'translate(-50%, 0) scale(0.5)';
-            }, 3000);
+        // =========================================================================
+        // 7TV PARSER & CHAT SYSTEM (The Long Way)
+        // =========================================================================
+        const sevenTvDictionary = {
+            'pepeD': 'https://cdn.7tv.app/emote/60ae3e54259ac5a73e56a426/1x.webp',
+            'GIGACHAD': 'https://cdn.7tv.app/emote/60ae74fa259ac5a73e56abeb/1x.webp',
+            'POGGERS': 'https://cdn.7tv.app/emote/60ae408f169ebf6d148e6589/1x.webp',
+            'monkaW': 'https://cdn.7tv.app/emote/60b00110b254a5e16bfa4167/1x.webp',
+            'SON': 'https://cdn.7tv.app/emote/62e08a688a10174e90847b2c/1x.webp', // The legendary SON emote
+            'EZ': 'https://cdn.7tv.app/emote/63071b80942ffb69e13d700f/1x.webp',
+            'HYPERS': 'https://cdn.7tv.app/emote/60ae3800b254a5e16bf9f196/1x.webp'
+        };
+
+        function parse7TV(rawString) {
+            let processed = rawString;
+            for (const key in sevenTvDictionary) {
+                if (Object.hasOwnProperty.call(sevenTvDictionary, key)) {
+                    const url = sevenTvDictionary[key];
+                    // Create massive image tag
+                    const imgTag = `<img src="${url}" alt="${key}" title="${key}" class="emote">`;
+                    const regex = new RegExp(`\\b${key}\\b`, 'g');
+                    processed = processed.replace(regex, imgTag);
+                }
+            }
+            return processed;
         }
 
-        function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+        function generateSpaghettiChat() {
+            // Unnecessarily long switch statement to pick a message
+            let randomMsgPicker = Math.floor(Math.random() * 15);
+            let finalUser = "";
+            let finalMsg = "";
 
-        // --- REVEAL ---
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('revealed'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            switch (randomMsgPicker) {
+                case 0: finalUser = "JuiceGod"; finalMsg = "POGGERS GRAPE HEAD"; break;
+                case 1: finalUser = "AppleHater"; finalMsg = "L + Ratio + No Seeds"; break;
+                case 2: finalUser = "VineLord"; finalMsg = "ARE YA WINNING SON"; break;
+                case 3: finalUser = "GamerGrape"; finalMsg = "EZ Clap"; break;
+                case 4: finalUser = "Seedless99"; finalMsg = "monkaW the rig is shaking"; break;
+                case 5: finalUser = "JuiceGod"; finalMsg = "GIGACHAD fruit choice"; break;
+                case 6: finalUser = "VineLord"; finalMsg = "SON HYPERS"; break;
+                case 7: finalUser = "AppleHater"; finalMsg = "pepeD pepeD pepeD"; break;
+                case 8: finalUser = "RandomViewer1"; finalMsg = "What am I watching"; break;
+                case 9: finalUser = "PurpleKing"; finalMsg = "W STREAMER POGGERS"; break;
+                case 10: finalUser = "Seedless99"; finalMsg = "SON SON SON SON"; break;
+                case 11: finalUser = "GamerGrape"; finalMsg = "Juice me up HYPERS"; break;
+                case 12: finalUser = "JuiceGod"; finalMsg = "100% grape accuracy GIGACHAD"; break;
+                case 13: finalUser = "VineLord"; finalMsg = "pepeD drop the beat"; break;
+                case 14: finalUser = "RandomViewer2"; finalMsg = "monkaW monkaW monkaW"; break;
+                default: finalUser = "System"; finalMsg = "Error in spaghetti logic"; break;
+            }
+
+            const div = document.createElement('div');
+            div.className = "chat-line";
+            div.innerHTML = `<span class="chat-user">${finalUser}:</span><span class="chat-text">${parse7TV(finalMsg)}</span>`;
+            
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            if (chatMessages.childElementCount > 30) {
+                chatMessages.removeChild(chatMessages.firstChild);
+            }
+        }
+
+        // Loop the chat
+        setInterval(() => {
+            // Speed up chat if hype train is active
+            if (isHypeTrain) {
+                generateSpaghettiChat();
+                generateSpaghettiChat();
+            } else {
+                generateSpaghettiChat();
+            }
+        }, 1500);
+
+        // =========================================================================
+        // HYPE TRAIN & CLICK LOGIC
+        // =========================================================================
+        
+        // Track clicks per second
+        setInterval(() => {
+            if (clickSpeed > 0) clickSpeed--;
+            
+            if (clickSpeed > 8 && !isHypeTrain) {
+                activateHypeTrain();
+            } else if (clickSpeed <= 3 && isHypeTrain) {
+                deactivateHypeTrain();
+            }
+        }, 500);
+
+        function activateHypeTrain() {
+            isHypeTrain = true;
+            camContainer.classList.add('hype-flash');
+            confetti({ particleCount: 50, spread: 100, origin: { y: 0.9 } });
+            
+            const div = document.createElement('div');
+            div.className = "chat-line";
+            div.innerHTML = `<span style="color:red; font-weight:900;">SYSTEM: HYPE TRAIN ACTIVATED HYPERS</span>`;
+            chatMessages.appendChild(div);
+        }
+
+        function deactivateHypeTrain() {
+            isHypeTrain = false;
+            camContainer.classList.remove('hype-flash');
+        }
+
+        // Master Click Event listener
+        document.addEventListener('mousedown', (e) => {
+            // Ignore if clicking the buy button
+            if(e.target === buyBtn) return;
+
+            // Economy
+            Economy.addCoins(1);
+            
+            // Hype calc
+            clickSpeed += 2;
+
+            // Visual Goal Bar
+            goalProgress += 1;
+            if(goalProgress > 100) goalProgress = 0;
+            goalBarFill.style.width = goalProgress + '%';
+
+            // Rig bounce effect
+            grapeHead.style.transform = 'scale(1.2)';
+            setTimeout(() => { grapeHead.style.transform = 'scale(1)'; }, 100);
+        });
+
+        // =========================================================================
+        // THE STORE FUNCTIONALITY
+        // =========================================================================
+        buyBtn.addEventListener('click', () => {
+            if (Economy.spendCoins(100)) {
+                grapeHead.innerText = '✨';
+                grapeHead.style.filter = 'drop-shadow(0 0 20px gold)';
+                buyBtn.innerText = "PURCHASED!";
+                confetti({ particleCount: 200, spread: 180, origin: { y: 0.5 }, colors: ['#ffd700', '#ffffff'] });
+            } else {
+                buyBtn.innerText = "NOT ENOUGH COINS";
+                setTimeout(() => { buyBtn.innerText = "BUY GOLDEN SKIN (100 GC)"; }, 1000);
+            }
+        });
+
     </script>
 </body>
 </html>

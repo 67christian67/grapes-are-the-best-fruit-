@@ -11,6 +11,7 @@
         :root {
             --grape-primary: #a855f7;
             --grape-dark: #03000a;
+            --gold: #ffd700;
         }
 
         body {
@@ -19,14 +20,13 @@
             color: white;
             overflow-x: hidden;
             scroll-behavior: smooth;
+            cursor: none;
         }
 
         .hero-font { font-family: 'Playfair Display', serif; }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #3b0764; border-radius: 10px; }
+        ::-webkit-scrollbar { width: 0px; }
 
         /* Text Effects */
         .outline-text {
@@ -40,32 +40,28 @@
             filter: drop-shadow(0 0 20px var(--grape-primary));
         }
 
+        /* V-TUBER RIG STYLES */
+        .headset-band { position: absolute; top: -10px; width: 110%; height: 60%; border: 8px solid #222; border-radius: 50% 50% 0 0; border-bottom: none; }
+        .earcup { position: absolute; width: 25px; height: 45px; background: #1a1a1a; border-radius: 10px; border: 2px solid var(--grape-primary); }
+        .mic-arm { position: absolute; bottom: 15px; left: -25px; width: 45px; height: 10px; background: #333; border-radius: 20px; transform: rotate(15deg); }
+        .mic-pop { position: absolute; right: -5px; top: -5px; width: 22px; height: 22px; background: #000; border: 1px solid #444; border-radius: 50%; }
+
         /* Animations */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
         .revealed { opacity: 1; transform: translateY(0); }
-
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-        .scanline {
-            width: 100%; height: 2px;
-            background: rgba(168, 85, 247, 0.2);
-            position: absolute;
-            animation: scanline 4s linear infinite;
-        }
 
         .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
         
         #custom-cursor {
             width: 40px; height: 40px;
             position: fixed; pointer-events: none; z-index: 9999;
-            transition: transform 0.1s ease-out;
             display: flex; align-items: center; justify-content: center;
         }
+
+        .gold-glow { filter: drop-shadow(0 0 15px var(--gold)) saturate(2); }
     </style>
 </head>
-<body class="bg-[#03000a]">
+<body>
 
     <div id="custom-cursor"><span class="text-3xl">🍇</span></div>
 
@@ -78,30 +74,43 @@
             <div class="flex-1 h-5 bg-black rounded-full overflow-hidden border border-white/10 relative">
                 <div id="goal-bar" class="h-full bg-gradient-to-r from-purple-600 to-fuchsia-500 transition-all duration-700" style="width: 15%"></div>
                 <div class="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white uppercase mix-blend-difference tracking-widest">
-                    Next Reward: Golden Grape Skin Unlocked
+                    Spam clicks to reach 100%
                 </div>
             </div>
             <div class="flex-shrink-0 text-white font-mono text-sm font-black" id="goal-percent">15%</div>
         </div>
     </div>
 
-    <div id="twitch-chat" class="fixed top-24 right-6 z-[90] w-64 h-[50vh] glass rounded-2xl flex flex-col shadow-2xl hidden md:flex">
-        <div class="p-3 border-b border-white/10 flex justify-between items-center">
-            <span class="text-[10px] font-bold uppercase tracking-widest text-purple-400">Live Chat</span>
+    <div id="twitch-chat" class="fixed top-24 right-6 z-[90] w-64 h-[45vh] glass rounded-2xl flex flex-col shadow-2xl hidden md:flex">
+        <div class="p-3 border-b border-white/10 flex justify-between items-center bg-purple-900/10">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-purple-400">Stream Chat</span>
             <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
         </div>
         <div id="chat-container" class="flex-1 overflow-y-auto p-3 space-y-2 text-[11px] font-medium"></div>
     </div>
 
-    <div id="grape-cam" class="fixed bottom-6 right-6 z-[100] w-64 h-48 bg-zinc-900 border-4 border-purple-600 rounded-xl shadow-2xl overflow-hidden hidden md:block">
-        <div class="scanline"></div>
-        <div class="absolute top-0 left-0 w-full bg-purple-600 px-2 py-1 flex justify-between items-center z-10">
-            <span class="text-[9px] font-black">LIVE: GRAPE_SUPREME</span>
+    <div id="grape-cam" class="fixed bottom-6 right-6 z-[100] w-72 h-56 bg-zinc-900 border-4 border-purple-600 rounded-xl shadow-2xl overflow-hidden hidden md:block transition-all duration-500">
+        <div id="cam-overlay" class="absolute top-0 left-0 w-full bg-purple-600 px-2 py-1 flex justify-between items-center z-20">
+            <span class="text-[9px] font-black" id="cam-label">LIVE: GRAPE_SUPREME</span>
             <span class="text-[9px] font-mono">REC ● 14.2k</span>
         </div>
-        <div class="relative w-full h-full flex items-center justify-center bg-[#111]">
-            <div id="grape-character" class="text-8xl transition-all duration-200">🍇</div>
-            <div id="grape-chat" class="absolute top-12 right-2 bg-white text-black text-[10px] font-bold px-2 py-1 rounded opacity-0 transition-opacity">POG!</div>
+        
+        <div class="relative w-full h-full flex items-center justify-center bg-[#111] pt-6">
+            <div id="streamer-rig" class="relative transition-transform duration-100 ease-out">
+                <div id="headset-band" class="headset-band"></div>
+                <div id="ear-l" class="earcup -left-4 top-10"></div>
+                <div id="ear-r" class="earcup -right-4 top-10"></div>
+                
+                <div id="grape-character" class="text-9xl relative z-10 select-none transition-all duration-200">🍇</div>
+                
+                <div class="mic-arm relative z-20">
+                    <div class="mic-pop"></div>
+                </div>
+            </div>
+
+            <div id="grape-chat" class="absolute top-16 right-4 bg-white text-black text-[10px] font-black px-3 py-2 rounded-lg opacity-0 transition-opacity shadow-xl z-50">
+                POG!
+            </div>
         </div>
     </div>
 
@@ -126,56 +135,11 @@
         </div>
     </header>
 
-    <section id="why" class="py-40 px-6">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-20 items-center">
-            <div class="space-y-10">
-                <h2 class="hero-font text-7xl font-bold reveal">The Science of <span class="text-purple-500">Juice.</span></h2>
-                <div class="space-y-6">
-                    <div class="reveal glass p-6 rounded-3xl flex gap-4">
-                        <span class="text-3xl">🚫</span>
-                        <p class="text-zinc-400">No peeling. No mess. No sticky fingers. Just pure efficiency.</p>
-                    </div>
-                    <div class="reveal glass p-6 rounded-3xl flex gap-4">
-                        <span class="text-3xl">🍷</span>
-                        <p class="text-zinc-400">The only fruit that ages like a fine wine. Literally.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="reveal glass p-10 rounded-[3rem] text-center border-purple-500/30">
-                <div class="text-6xl font-black mb-4">100%</div>
-                <div class="text-xs uppercase tracking-[0.4em] text-purple-400">Superiority Rating</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-40 bg-white/5">
-        <div class="max-w-6xl mx-auto px-8">
-            <h2 class="hero-font text-6xl font-black mb-16 italic text-center underline decoration-purple-500">GRAPE-PEDIA</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="reveal glass p-8 rounded-3xl hover:border-green-500 transition-colors">
-                    <div class="text-4xl mb-4">🟢</div>
-                    <h4 class="text-xl font-bold mb-2">The Emerald</h4>
-                    <p class="text-zinc-500 text-sm">Crisp, tart, and ready for battle. The classic green.</p>
-                </div>
-                <div class="reveal glass p-8 rounded-3xl hover:border-red-500 transition-colors">
-                    <div class="text-4xl mb-4">🔴</div>
-                    <h4 class="text-xl font-bold mb-2">The Ruby</h4>
-                    <p class="text-zinc-500 text-sm">Sweet, reliable, and deeply juicy. The crowd favorite.</p>
-                </div>
-                <div class="reveal glass p-8 rounded-3xl hover:border-purple-500 transition-colors">
-                    <div class="text-4xl mb-4">⚫</div>
-                    <h4 class="text-xl font-bold mb-2">The Midnight</h4>
-                    <p class="text-zinc-500 text-sm">High sugar, high intensity. For the elite connoisseur.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="shop" class="py-40">
         <div class="max-w-4xl mx-auto px-8">
             <div class="text-center mb-16">
                 <h2 class="hero-font text-7xl font-bold mb-4">SKIN SHOP</h2>
-                <p class="text-purple-400 font-mono text-sm uppercase">Spend your "Juice Points" (Clicks) here</p>
+                <p class="text-purple-400 font-mono text-sm uppercase">Equip your V-Tuber Outfit</p>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                 <button onclick="changeSkin('🍇', 'Default')" class="glass p-6 rounded-2xl hover:bg-white/10 transition-all flex flex-col items-center gap-4">
@@ -190,29 +154,19 @@
                     <span class="text-5xl">👑</span>
                     <span class="text-xs font-bold uppercase">Royalty</span>
                 </button>
-                <button onclick="changeSkin('👽', 'Space Grape')" class="glass p-6 rounded-2xl hover:bg-white/10 transition-all flex flex-col items-center gap-4">
-                    <span class="text-5xl">👽</span>
-                    <span class="text-xs font-bold uppercase">Alien</span>
-                </button>
-                <button onclick="changeSkin('🤖', 'Cyber Grape')" class="glass p-6 rounded-2xl hover:bg-white/10 transition-all flex flex-col items-center gap-4">
-                    <span class="text-5xl">🤖</span>
-                    <span class="text-xs font-bold uppercase">Bot</span>
-                </button>
                 <button onclick="changeSkin('✨', 'Golden')" class="glass p-6 rounded-2xl border-yellow-500 bg-yellow-500/10 hover:bg-yellow-500/20 transition-all flex flex-col items-center gap-4">
                     <span class="text-5xl">✨</span>
                     <span class="text-xs font-bold uppercase">Golden</span>
                 </button>
+                <button onclick="changeSkin('👽', 'Space')" class="glass p-6 rounded-2xl hover:bg-white/10 transition-all flex flex-col items-center gap-4">
+                    <span class="text-5xl">👽</span>
+                    <span class="text-xs font-bold uppercase">Alien</span>
+                </button>
+                <button onclick="changeSkin('🤖', 'Cyber')" class="glass p-6 rounded-2xl hover:bg-white/10 transition-all flex flex-col items-center gap-4">
+                    <span class="text-5xl">🤖</span>
+                    <span class="text-xs font-bold uppercase">Bot</span>
+                </button>
             </div>
-        </div>
-    </section>
-
-    <section id="join" class="py-60 text-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-purple-600/10 blur-[120px] rounded-full"></div>
-        <div class="relative z-10 px-6">
-            <h2 class="hero-font text-8xl font-black mb-8 italic">THE FINAL CLICK.</h2>
-            <button onclick="launchConfetti(); updateGoal(5)" class="px-20 py-10 bg-purple-600 text-white text-3xl font-black rounded-full shadow-[0_0_50px_rgba(168,85,247,0.5)] hover:scale-110 active:scale-95 transition-all">
-                I AM A GRAPE LOYALIST
-            </button>
         </div>
     </section>
 
@@ -223,6 +177,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         const cursor = document.getElementById('custom-cursor');
+        const rig = document.getElementById('streamer-rig');
         const character = document.getElementById('grape-character');
         const chatBubble = document.getElementById('grape-chat');
         const chatContainer = document.getElementById('chat-container');
@@ -235,26 +190,24 @@
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
             
-            // Character follows mouse
-            const x = (e.clientX - window.innerWidth / 2) / 30;
-            const y = (e.clientY - window.innerHeight / 2) / 30;
-            character.style.transform = `translate(${x}px, ${y}px) rotate(${x}deg)`;
+            // Rig follows mouse
+            const x = (e.clientX - window.innerWidth / 2) / 35;
+            const y = (e.clientY - window.innerHeight / 2) / 35;
+            rig.style.transform = `translate(${x}px, ${y}px) rotate(${x}deg)`;
         });
 
         // --- CHAT SYSTEM ---
         const users = ['JuiceGod', 'AppleHater', 'VineLord', 'PurpleKing', 'Seedless99', 'GamerGrape'];
         const msgs = ['🍇🍇🍇🍇', 'POGGERS', 'W STRAT', 'LMAO', 'GRAPE GANG', 'SHEESH', 'Based fruit choice'];
 
-        function addChat() {
+        function addChat(u, m, col = 'text-purple-400') {
             const div = document.createElement('div');
-            const u = users[Math.floor(Math.random()*users.length)];
-            const m = msgs[Math.floor(Math.random()*msgs.length)];
-            div.innerHTML = `<span class="text-purple-400 font-bold">${u}:</span> <span class="text-zinc-300">${m}</span>`;
+            div.innerHTML = `<span class="${col} font-bold">${u}:</span> <span class="text-zinc-300">${m}</span>`;
             chatContainer.appendChild(div);
             chatContainer.scrollTop = chatContainer.scrollHeight;
             if(chatContainer.children.length > 15) chatContainer.removeChild(chatContainer.firstChild);
         }
-        setInterval(addChat, 2000);
+        setInterval(() => addChat(users[Math.floor(Math.random()*users.length)], msgs[Math.floor(Math.random()*msgs.length)]), 2000);
 
         // --- REACTIONS ---
         function grapeSpeak(text) {
@@ -263,11 +216,33 @@
             setTimeout(() => chatBubble.style.opacity = '0', 2000);
         }
 
-        // --- SKINS ---
+        // --- SKINS & GOLDEN MODE ---
         function changeSkin(emoji, name) {
             character.innerText = emoji;
             grapeSpeak(`NEW SKIN: ${name}!`);
-            addChat('SYSTEM', `Equipped ${name}`, 'text-yellow-400');
+            
+            const cam = document.getElementById('grape-cam');
+            const overlay = document.getElementById('cam-overlay');
+            const ears = [document.getElementById('ear-l'), document.getElementById('ear-r')];
+            const band = document.getElementById('headset-band');
+
+            if(name === 'Golden') {
+                character.classList.add('gold-glow');
+                cam.style.borderColor = '#ffd700';
+                overlay.style.backgroundColor = '#ffd700';
+                overlay.style.color = '#000';
+                ears.forEach(e => e.style.backgroundColor = '#ffd700');
+                band.style.borderColor = '#ffd700';
+                addChat('SYSTEM', 'GOLDEN MODE ACTIVATED', 'text-yellow-400');
+            } else {
+                character.classList.remove('gold-glow');
+                cam.style.borderColor = '#a855f7';
+                overlay.style.backgroundColor = '#a855f7';
+                overlay.style.color = '#fff';
+                ears.forEach(e => e.style.backgroundColor = '#1a1a1a');
+                band.style.borderColor = '#222';
+            }
+            
             launchConfetti();
         }
 
@@ -282,16 +257,16 @@
 
         // --- CLICK EVENTS ---
         document.addEventListener('mousedown', () => {
-            character.style.transform += ' scale(1.2)';
+            character.style.transform = 'scale(1.2)';
             updateGoal(0.2);
             if(Math.random() > 0.9) grapeSpeak("HYPE!");
+            setTimeout(() => character.style.transform = 'scale(1)', 100);
         });
 
         // --- UTILS ---
         function launchConfetti() {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#a855f7', '#ffffff'] });
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#a855f7', '#ffd700'] });
             
-            // Trigger Dono
             const user = users[Math.floor(Math.random()*users.length)];
             document.getElementById('dono-user').innerText = `${user}: $${(Math.random()*20 + 1).toFixed(2)}`;
             donoAlert.style.opacity = '1';
@@ -309,7 +284,6 @@
             entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('revealed'); });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
     </script>
 </body>
 </html>

@@ -237,12 +237,14 @@
         const users = ['JuiceGod', 'AppleHater', 'VineLord', 'PurpleKing', 'Seedless99', 'GamerGrape'];
         const msgs = ['🍇🍇🍇', 'POGGERS', 'W STRAT', 'LMAO pepeD', 'GRAPE GANG GIGACHAD', 'SHEESH monkaW', 'Based fruit SON'];
 
-        const sevenTvEmotes = {
-            'pepeD': 'https://cdn.7tv.app/emote/60ae3e54259ac5a73e56a426/1x.webp',
-            'GIGACHAD': 'https://cdn.7tv.app/emote/60ae74fa259ac5a73e56abeb/1x.webp',
-            'POGGERS': 'https://cdn.7tv.app/emote/60ae408f169ebf6d148e6589/1x.webp',
-            'monkaW': 'https://cdn.7tv.app/emote/60b00110b254a5e16bfa4167/1x.webp',
-            'SON': 'https://cdn.7tv.app/emote/62e08a688a10174e90847b2c/1x.webp'
+     const sevenTvEmotes = {
+            // Switched to highly stable BetterTTV links for the classics
+            'pepeD': 'https://cdn.betterttv.net/emote/5b1740221c5a6065a7bad4b5/1x.webp',
+            'GIGACHAD': 'https://cdn.betterttv.net/emote/6096500839b5010444d0c1e8/1x.webp',
+            'POGGERS': 'https://cdn.betterttv.net/emote/58ae8407ff7b7276f8e594f2/1x.webp',
+            'monkaW': 'https://cdn.betterttv.net/emote/5c98d00063fd0b31e9c20a46/1x.webp',
+            // SON is unique to 7TV, so here is a freshly verified, active ID for it
+            'SON': 'https://cdn.7tv.app/emote/648b2eb6e57ba51c68188147/1x.webp' 
         };
 
         function parse7TV(text) {
@@ -360,6 +362,47 @@
         function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
         
         // --- REVEAL ANIMATIONS ---
+       
+        // --- DONO ALERTS ---
+        // Using a free, reliable notification ping sound
+        const donoAudio = new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg'); 
+
+        function triggerDono() {
+            const fakeNames = ['GrapeLover99', 'xX_Juice_Xx', 'VineyardKing', 'SeedlessGamer', 'TheRaisinHater'];
+            const randomName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+            const randomAmt = (Math.random() * 50 + 1).toFixed(2); // Random amount between $1 and $51
+
+            document.getElementById('dono-user').innerText = `${randomName}: $${randomAmt}`;
+            
+            // Attempt to play sound (browsers sometimes block this until you click the page first)
+            donoAudio.play().catch(e => console.log("Click the page first to enable audio!"));
+
+            // Animate alert in
+            donoAlert.classList.remove('opacity-0', 'scale-50');
+            donoAlert.classList.add('opacity-100', 'scale-100');
+            
+            // Drop a message in chat
+            addChat('💰 SYSTEM', `${randomName} just donated $${randomAmt}! POGGERS`, 'text-yellow-400');
+            
+            // Give extra Grape Coins to the player
+            coins += Math.floor(randomAmt * 10);
+            coinDisplay.innerText = coins;
+
+            // Make the grape rig bounce
+            character.style.transform = 'scale(1.4)';
+            setTimeout(() => character.style.transform = 'scale(1)', 200);
+
+            // Animate alert out after 4 seconds
+            setTimeout(() => {
+                donoAlert.classList.remove('opacity-100', 'scale-100');
+                donoAlert.classList.add('opacity-0', 'scale-50');
+            }, 4000);
+        }
+
+        // Randomly trigger a fake donation every 30 to 60 seconds
+        setInterval(() => {
+            if (Math.random() > 0.4) triggerDono();
+        }, 30000);
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('revealed'); });
         }, { threshold: 0.1 });
